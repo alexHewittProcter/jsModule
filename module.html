@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Module window test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #buttonWrapper {
+            margin: 20px;
+        }
+    </style>
+    <script src="module.js"></script>
+    <script type="text/javascript">
+        var body;
+        window.onload = function() {
+            body = document.getElementsByTagName("BODY")[0];
+            createModule();
+        }
+        var moduleForm = document.createElement("form");
+        var nameInputWrapper = document.createElement("div");
+        nameInputWrapper.classList.add("form-group");
+        var nameInputLabel = document.createElement("label");
+        nameInputLabel.innerHTML = "Name : ";
+        nameInputWrapper.appendChild(nameInputLabel);
+        var nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.name = "Name";
+        nameInput.id = "nameInput";
+        nameInput.classList.add("form-control");
+        nameInputWrapper.append(nameInput);
+        moduleForm.append(nameInputWrapper);
+        var emailInputWrapper = document.createElement("div");
+        emailInputWrapper.classList.add("form-group");
+        var emailInputLabel = document.createElement("label");
+        emailInputLabel.innerHTML = "Email : "; 
+        emailInputWrapper.append(emailInputLabel);
+        var emailInput = document.createElement("input");
+        emailInput.type = "email";
+        emailInput.name = "Email";
+        emailInput.id = "emailInput";
+        emailInput.classList.add("form-control");
+        emailInputWrapper.append(emailInput);
+        moduleForm.append(emailInputWrapper);
+        var phoneInputWrapper = document.createElement("div");
+        phoneInputWrapper.classList.add("form-group");
+        var phoneInputLabel = document.createElement("label");
+        phoneInputLabel.innerHTML = "Phone : ";
+        phoneInputWrapper.append(phoneInputLabel);
+        var phoneInput = document.createElement("input");
+        phoneInput.type = "number";
+        phoneInput.name = "Phone";
+        phoneInput.id = "phoneInput";
+        phoneInput.classList.add("form-control");
+        phoneInput.min = 0;
+        phoneInputWrapper.append(phoneInput);
+        moduleForm.append(phoneInputWrapper);
+        var moduleArguments = {
+            width : "400px",
+            height : "500px",
+            elements : moduleForm,
+            validate : "function",
+            onClose : function() {
+                let nameValue = document.getElementById("nameInput");
+                alert(nameValue.value);
+                nameValue.value = "";
+                let emailInput = document.getElementById("emailInput");
+                alert(emailInput.value);
+                emailInput.value = "";
+                let phoneInput = document.getElementById("phoneInput");
+                alert(phoneInput.value);
+                phoneInput.value = "";
+            }, 
+            heading : "Signup",
+            successButton : "Submit"
+        };
+        function centreModule() {
+            var moduleWindow = document.getElementById("moduleWindow");
+            moduleWindow.style.top = ((window.outerHeight - parseInt(moduleWindow.style.height,10)) /2) + "px";
+            moduleWindow.style.left = ((window.outerWidth - parseInt(moduleWindow.style.width,10)) /2) + "px";
+        }
+        var module;
+        function validateModule() {
+            module.validate();
+        }
+        function closeModule() {
+            module.close();
+        }
+        function finishModule() {
+            module.finish();
+        }
+        function createModule() {
+            module = new Module(moduleArguments);
+            module.open();
+            centreModule();
+            window.onresize = function() {centreModule()};
+        }
+        
+    </script>
+</head>
+<body style='position:relative;height:100%;width:100%;'>
+    <div id="buttonWrapper">
+        <button type="button" class="btn btn-primary" onclick="createModule()">Module</button>
+    </div>
+</body>
+</html>
